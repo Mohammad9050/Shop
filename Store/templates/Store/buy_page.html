@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/test_product.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+
+<body>
+    <div class="header">
+
+  <div class="header-right">
+    <a class="active" href="{% url "Store:product" %}">Home</a>
+      {% if user.is_authenticated %}
+        <a href="{% url "Account:profile_detail" %}">Profile</a>
+        <a href="{% url "Store:cart" %}">Cart</a>
+          <a href="{% url "Account:purchase" %}">Purchases</a>
+        <a href="{% url "Account:logout" %}">Logout</a>
+      {% else %}
+          <a href="{% url "Account:login" %}">Sign in</a>
+      {% endif %}
+  </div>
+</div>
+     <div class="card" style="top: 10px; left: 35px;background-color: #bdf5b3">
+        <img src="{{ pro_d.product.product_img.url }}" alt="Denim Jeans" style="width:100%; height: 190px; ">
+        <h1>{{ pro_d.product.name }}</h1>
+        <p class="price">${{ pro_d.product.price }}</p>
+         <p class="price">{{ pro_d.product.inventory }}</p>
+         <div class="box">
+         <form action="" method="post">
+             {% csrf_token %}
+
+                <select name="number" >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <button type="submit" class="add_text">buy</button>
+
+         </form>
+             </div>
+         <p style="color: red">{{ error }}</p>
+       <!-- <a href="{#% url "Store:delete" num=i.id %#}" style="color: red">delete</a>-->
+  <!--<p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>-->
+       <!-- <p><a href="{#% url "Store:cart" num=i.id %#}">Add to Cart</a></p>-->
+    </div>
+</body>
+</html>

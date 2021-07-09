@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/sign_up.css" %}">
+</head>
+<body>
+    <form class="modal-content" action="" method="post">
+    {% csrf_token %}
+    <div class="container">
+      <h1>Sign Up</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+
+        {% for field in form %}
+            <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            </p>
+            {% for error in field.errors %}
+                <p style="color: #ff0000">{{ error }}</p>
+            {% endfor %}
+
+        {% endfor %}
+      <div class="clearfix">
+        <button type="submit" >Sign Up</button>
+      </div>
+    </div>
+  </form>
+</body>
+</html>

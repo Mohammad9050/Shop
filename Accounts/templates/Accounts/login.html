@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/sign_up.css" %}">
+</head>
+<body>
+    <form class="modal-content" action="" method="post">
+        {% csrf_token %}
+    <div class="container">
+      <h1>Sign In</h1>
+      <hr>
+      <label for="username"><b>Email</b></label>
+      <input type="text" placeholder="Enter Username" name="username" required>
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+        {% if error %}
+        <p style="color: #ff0000">{{ error }}</p>
+        {% endif %}
+      <div class="clearfix">
+        <a href="{% url "Account:signup" %}" class="button2">Create Account</a>
+        <button type="submit" >Sign In</button>
+      </div>
+    </div>
+  </form>
+
+</body>
+</html>

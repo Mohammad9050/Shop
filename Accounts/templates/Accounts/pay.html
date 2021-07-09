@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/formstyle.css" %}">
+</head>
+<body>
+    <div class="header">
+
+  <div class="header-right">
+    <a class="active" href="{% url "Store:product" %}">Home</a>
+      {% if user.is_authenticated %}
+        <a href="{% url "Account:profile_detail" %}">Profile</a>
+        <a href="{% url "Store:cart" %}">Cart</a>
+        <a href="{% url "Account:purchase" %}">Purchases</a>
+        <a href="{% url "Account:logout" %}">Logout</a>
+      {% else %}
+          <a href="{% url "Account:login" %}">Sign in</a>
+      {% endif %}
+  </div>
+</div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="amount">Amount</label>
+            <input type="number" class="pay-style" id="amount" name="number" placeholder="Type in your username.." autocomplete="off" required />
+        <label for="receipt">receipt</label>
+            <input type="text" class="pay-style" id="receipt" name="receipt" placeholder="Type in your username.." autocomplete="off" required />
+        <button type="submit" class="reset-button" >Buy</button>
+    </form>
+    <p style="color:red;">{{ error }}</p>
+    <p style="color: green">{{ suc }}</p>
+    <p>balance = {{ bal }}$</p><br>
+    {% for j in pays %}
+        <ul style="float: left">
+            <li>{{ j.number }}</li>
+            <li>{{ j.time }}</li>
+
+        </ul>
+    {% endfor %}
+</body>
+</html>
