@@ -29,7 +29,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WeatherApp" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="liveEdit" />
   </component>
@@ -119,7 +119,7 @@
       <workItem from="1622973155386" duration="2767000" />
       <workItem from="1623070487828" duration="940000" />
       <workItem from="1623168700790" duration="1445000" />
-      <workItem from="1625861183927" duration="1740000" />
+      <workItem from="1625861183927" duration="2963000" />
     </task>
     <servers />
   </component>
