@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from Accounts.models import Cart
 from Store.forms import SearchForm
 from Store.models import Product, Receipt
+from itertools import chain
 
 
 def product(request):
@@ -92,3 +94,24 @@ def buy(request, num):
         except Exception as e:
             context['error'] = str(e)
     return render(request, 'Store/buy_page.html', context)
+
+
+def related(request):
+    profile = request.user.profile
+    buys = Receipt.objects.filter(customer=profile)
+    if buys:
+        prices = []
+        cats = []
+        for i in buys:
+            prices.append(i.product.price)
+            cats.append(i.product.category)
+        prices.sort()
+
+        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) & Q(category__in=cats))
+    else:
+        related_obj = ''
+    return render(request, 'Store/test_related.html', {'related': related_obj})
+
+
+
+
