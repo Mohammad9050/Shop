@@ -26,7 +26,7 @@ def product(request):
         prices.sort()
 
         related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
-                                             Q(category__in=cats))[:5]
+                                             Q(category__in=cats))[:4]
     else:
         related_obj = ''
     if find.is_valid():
@@ -106,21 +106,3 @@ def buy(request, num):
         except Exception as e:
             context['error'] = str(e)
     return render(request, 'Store/buy_page.html', context)
-
-
-'''def related(request):
-    profile = request.user.profile
-    buys = Receipt.objects.filter(customer=profile)
-    if buys:
-        prices = []
-        cats = []
-        for i in buys:
-            prices.append(i.product.price)
-            cats.append(i.product.category)
-        prices.sort()
-
-        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
-                                             Q(category__in=cats))[:5]
-    else:
-        related_obj = ''
-    return render(request, 'Store/home.html', {'related': related_obj})'''
