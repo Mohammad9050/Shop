@@ -6,7 +6,6 @@ from django.urls import reverse
 from Accounts.models import Cart
 from Store.forms import SearchForm
 from Store.models import Product, Receipt
-from itertools import chain
 
 
 def product(request):
@@ -17,7 +16,19 @@ def product(request):
         profile = request.user.profile
     except:
         profile = ''
+    buys = Receipt.objects.filter(customer=profile)
+    if buys:
+        prices = []
+        cats = []
+        for i in buys:
+            prices.append(i.product.price)
+            cats.append(i.product.category)
+        prices.sort()
 
+        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
+                                             Q(category__in=cats))[:5]
+    else:
+        related_obj = ''
     if find.is_valid():
         name_searched = find.cleaned_data['name']
         products = products.filter(name__contains=name_searched)
@@ -34,6 +45,7 @@ def product(request):
         'find': find,
         'profile': profile,
         'l_product': l_product,
+        'related': related_obj
     }
 
     return render(request, 'Store/home.html', context)
@@ -96,7 +108,7 @@ def buy(request, num):
     return render(request, 'Store/buy_page.html', context)
 
 
-def related(request):
+'''def related(request):
     profile = request.user.profile
     buys = Receipt.objects.filter(customer=profile)
     if buys:
@@ -107,11 +119,8 @@ def related(request):
             cats.append(i.product.category)
         prices.sort()
 
-        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) & Q(category__in=cats))
+        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
+                                             Q(category__in=cats))[:5]
     else:
         related_obj = ''
-    return render(request, 'Store/test_related.html', {'related': related_obj})
-
-
-
-
+    return render(request, 'Store/home.html', {'related': related_obj})'''
