@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -15,7 +16,19 @@ def product(request):
         profile = request.user.profile
     except:
         profile = ''
+    buys = Receipt.objects.filter(customer=profile)
+    if buys:
+        prices = []
+        cats = []
+        for i in buys:
+            prices.append(i.product.price)
+            cats.append(i.product.category)
+        prices.sort()
 
+        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
+                                             Q(category__in=cats))[:4]
+    else:
+        related_obj = ''
     if find.is_valid():
         name_searched = find.cleaned_data['name']
         products = products.filter(name__contains=name_searched)
@@ -32,6 +45,7 @@ def product(request):
         'find': find,
         'profile': profile,
         'l_product': l_product,
+        'related': related_obj
     }
 
     return render(request, 'Store/home.html', context)
