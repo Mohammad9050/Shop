@@ -10,6 +10,9 @@ urlpatterns = [
     path('profile_detail', views.profile_detail, name ='profile_detail'),
     path('pay', views.pay_view, name='pay'),
     path('purchase', views.purchase, name='purchase'),
-    path('edit', views.edit_profile, name='edit')
+    path('edit', views.edit_profile, name='edit'),
+
+
+
    # path('tetsy', TemplateView.as_view(template_name='Accounts/pay_test.html'))
 ]

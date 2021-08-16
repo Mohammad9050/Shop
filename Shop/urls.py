@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
@@ -7,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('Accounts.urls')),
     path('', include('Store.urls')),
+    url('^', include('django.contrib.auth.urls'))
 
 ]
 #if settings.DEBUG:
