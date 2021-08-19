@@ -14,9 +14,11 @@ def product(request):
 
     try:
         profile = request.user.profile
+        buys = Receipt.objects.filter(customer=profile)
     except:
         profile = ''
-    buys = Receipt.objects.filter(customer=profile)
+        buys = []
+
     if buys:
         prices = []
         cats = []

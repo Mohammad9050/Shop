@@ -37,27 +37,28 @@
             </div>
             <a href="{% url "Store:product" %}"> <button type="button"  class="reset-button" id="trans">reset</button></a>
         </form>
-<h2 style="text-align: center; margin: 0;background: -webkit-linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Recommended list</h2>
-{% for j in related %}
-    <div class="card" style="background-color:  #FA8BFF;
-    background-image: -webkit-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
-    background-image: -moz-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
-    background-image: -o-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
-    background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);">
-        <img src="{{ j.product_img.url }}" alt="Denim Jeans" style="width:100%; height: 190px; ">
-        <h1>{{ j.name }}</h1>
-        <p class="price">${{ j.price }}</p>
-        <p class="price">{{ j.inventory }}</p>
-        {% if user.is_authenticated %}
-            <a href="{% url "Store:add" num=j.id %}" class="add_text">Add to Cart</a>
-        {% else %}
-            <a href="{% url "Account:login" %}" class="add_text">Add to Cart</a>
-        {% endif %}
-    </div>
-{% endfor %}
-
+{% if related %}
+    <h2 style="text-align: center; margin: 0;background: -webkit-linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;">Recommended list</h2>
+    {% for j in related %}
+        <div class="card" style="background-color:  #FA8BFF;
+        background-image: -webkit-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+        background-image: -moz-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+        background-image: -o-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+        background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);">
+            <img src="{{ j.product_img.url }}" alt="Denim Jeans" style="width:100%; height: 190px; ">
+            <h1>{{ j.name }}</h1>
+            <p class="price">${{ j.price }}</p>
+            <p class="price">{{ j.inventory }}</p>
+            {% if user.is_authenticated %}
+                <a href="{% url "Store:add" num=j.id %}" class="add_text">Add to Cart</a>
+            {% else %}
+                <a href="{% url "Account:login" %}" class="add_text">Add to Cart</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
 {% for i in products %}
     <div class="card" style="background-color: {% if  i.inventory > 30 %} #d1fad1 {% elif 30 > i.inventory and i.inventory > 10  %} #f5eece
             {% else %} #f8d8d8 {% endif %}">
