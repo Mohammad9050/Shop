@@ -17,6 +17,8 @@
 
       <label for="password"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="password" required>
+      <p style="margin-block-start: 0;">forgot password? click <a href="{% url "Account:password_reset" %}" style="text-decoration: none; text-decoration-color: black">
+          here</a></p>
         {% if error %}
         <p style="color: #ff0000">{{ error }}</p>
         {% endif %}
