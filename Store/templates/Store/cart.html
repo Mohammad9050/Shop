@@ -26,8 +26,12 @@
         <img src="{{ i.product.product_img.url }}" alt="Denim Jeans" style="width:100%; height: 190px; ">
         <h1>{{ i.product.name }}</h1>
         <p class="price">${{ i.product.price }}</p><br>
+        {% for tag in i.product.tags.all %}
+            <a href="{% url "Store:product" tag_slug=tag.slug %}" class="price">{{tag}}</a>,
+        {% endfor %}
      <a href="{% url "Store:delete" num=i.id %}" class="add_text" style="background-color: red">delete</a>
        <a href="{% url "Store:buy" num=i.id %}" class="add_text" style="background-color: green">Buy</a>
+
     </div>
 {% endfor %}
 </body>

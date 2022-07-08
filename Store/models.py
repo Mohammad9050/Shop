@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 
 class Product(models.Model):
@@ -20,6 +21,7 @@ class Product(models.Model):
     inventory = models.IntegerField(default=1)
     category = models.CharField(max_length=2, choices=CATEGORY, default='OT')
     product_img = models.ImageField(upload_to='photos/', default='photos/default_store.jpg')
+    tags = TaggableManager()
 
     def increase(self, num):
         if self.inventory < num:

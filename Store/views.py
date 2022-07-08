@@ -3,34 +3,31 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from taggit.models import Tag
+from django.db.models import Count
 from Accounts.models import Cart
 from Store.forms import SearchForm
 from Store.models import Product, Receipt
 
 
-def product(request):
+def product(request, tag_slug=None):
+
     find = SearchForm(request.GET)
     products = Product.objects.all()
 
     try:
         profile = request.user.profile
         buys = Receipt.objects.filter(customer=profile)
+        tags = buys.values_list('product__tags', flat=True)
+        buys_id = buys.values_list('product__id', flat=True)
+        similar = Product.objects.filter(tags__in=tags).exclude(id__in=buys_id)
+        similar = similar.annotate(same_tags=Count('tags')).order_by('-same_tags')[:4]
+        similar_id = similar.values_list('id', flat=True)
+        products = Product.objects.exclude(id__in=similar_id)
     except:
         profile = ''
         buys = []
-
-    if buys:
-        prices = []
-        cats = []
-        for i in buys:
-            prices.append(i.product.price)
-            cats.append(i.product.category)
-        prices.sort()
-
-        related_obj = Product.objects.filter(Q(price__gte=prices[0]) & Q(price__lte=prices[-1]) &
-                                             Q(category__in=cats))[:4]
-    else:
-        related_obj = ''
+        similar = ''
     if find.is_valid():
         name_searched = find.cleaned_data['name']
         products = products.filter(name__contains=name_searched)
@@ -42,12 +39,15 @@ def product(request):
         if min_price is not None:
             products = products.filter(price__gte=min_price)
     l_product = len(products)
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        products = products.filter(tags__in=[tag])
     context = {
         'products': products,
         'find': find,
         'profile': profile,
         'l_product': l_product,
-        'related': related_obj
+        'similar': similar
     }
 
     return render(request, 'Store/home.html', context)

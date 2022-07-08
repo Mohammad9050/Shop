@@ -37,13 +37,13 @@ def login_view(request):
 
         if user is None:
             context['error'] = 'username or password is wrong'
-            return render(request, 'accounts/login.html', context)
+            return render(request, 'Accounts/login.html', context)
         else:
             login(request, user)
             return HttpResponseRedirect(reverse('Store:product'))
 
     else:
-        return render(request, 'accounts/login.html', context)
+        return render(request, 'Accounts/login.html', context)
 
 
 def logout_view(request):

@@ -35,13 +35,13 @@
             <div class="box" style="transform: translate(400%, -750%)">
                 {% include "Store/_home.html" with field=find.price %}
             </div>
-            <a href="{% url "Store:product" %}"> <button type="button"  class="reset-button" id="trans">reset</button></a>
+            <a href="{% url "Store:product"  %}"> <button type="button"  class="reset-button" id="trans">reset</button></a>
         </form>
-{% if related %}
+{% if similar %}
     <h2 style="text-align: center; margin: 0;background: -webkit-linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;">Recommended list</h2>
-    {% for j in related %}
+    {% for j in similar %}
         <div class="card" style="background-color:  #FA8BFF;
         background-image: -webkit-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
         background-image: -moz-linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
